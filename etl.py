@@ -4,9 +4,13 @@ import psycopg2
 import pandas as pd
 from sql_queries import *
 
-#insert를 upsert로 바꾸자..
 
 def process_song_file(cur, filepath):
+    """
+    Reads each files under given filepath,
+    parses the data in the file and creates corresponding tables in the database,
+    inserts the data into artists/songs tables
+    """
     # open song file
     df = pd.read_json(filepath, lines=True)
     
@@ -20,6 +24,11 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+    Reads each log files under given filepath, 
+    parses the logs in the file and creates corresponding tables in the database,
+    inserts the data into time/users/songplays tables
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -30,8 +39,8 @@ def process_log_file(cur, filepath):
     t = pd.to_datetime(df['ts'], unit='ms')
     
     # insert time data records
-    time_data = [df['ts'], t.dt.hour, t.dt.day, t.dt.weekofyear, t.dt.month, t.dt.year, t.dt.weekday]
-    column_labels = ['timestamp', 'hour', 'day', 'weekofyear', 'month', 'year', 'weekday']
+    time_data = [t, t.dt.hour, t.dt.day, t.dt.weekofyear, t.dt.month, t.dt.year, t.dt.weekday]
+    column_labels = ['start_time', 'hour', 'day', 'weekofyear', 'month', 'year', 'weekday']
     time_df = pd.concat(time_data, axis=1)
     time_df.columns = column_labels
 
@@ -64,6 +73,10 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    """
+    By getting filepath parameter, 
+    iterates all the files under given filepath and does process
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
