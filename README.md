@@ -25,10 +25,3 @@ start_time, hour, day, week, month, year, weekday
 create_tables.py includes sql statements that create tables and insert data into those tables. etl.py reads and processes files from song_data and log_data and loads them into your tables. create_tables.py drops and creates your tables. You run this file to reset your tables before each time you run your ETL scripts.
 etl.ipynb reads and processes a single file from song_data and log_data and loads the data into your tables. This notebook contains detailed instructions on the ETL process for each of the tables.
 Through test.ipynb, you can test you data to check and evaluate whether data is loaded in a right manner
-
-
-## Discuss the purpose of this database in the context of the startup, Sparkify, and their analytical goals.
-
-## State and justify your database schema design and ETL pipeline.
-
-## [Optional] Provide example queries and results for song play analysis. 
